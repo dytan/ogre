@@ -90,9 +90,23 @@ namespace Ogre
 
                 screenSizes = XRRConfigSizes(screenConfig, &nSizes);
 
-                mCurrentMode.width = screenSizes[currentSizeID].width;
-                mCurrentMode.height = screenSizes[currentSizeID].height;
-                mCurrentMode.refreshRate = XRRConfigCurrentRate(screenConfig);
+
+                // mCurrentMode.width = screenSizes[currentSizeID].width;
+                // mCurrentMode.height = screenSizes[currentSizeID].height;
+                // mCurrentMode.refreshRate = XRRConfigCurrentRate(screenConfig);
+
+                /// for ssh x forward
+		        if (nSizes==0){
+		            mCurrentMode.width = DisplayWidth(mXDisplay, DefaultScreen(mXDisplay));
+		            mCurrentMode.height = DisplayHeight(mXDisplay, DefaultScreen(mXDisplay));
+                    mCurrentMode.refreshRate = 0;
+                    mVideoModes.push_back(mCurrentMode);
+                }
+                else {
+                    mCurrentMode.width = screenSizes[currentSizeID].width;
+                    mCurrentMode.height = screenSizes[currentSizeID].height;
+                    mCurrentMode.refreshRate = XRRConfigCurrentRate(screenConfig);
+                }
 
                 mOriginalMode = mCurrentMode;
 
